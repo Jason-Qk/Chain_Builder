@@ -7,6 +7,29 @@ __WINDOW__ = "chain_builder_UI"
 
 # ============================== FUNCTION LIBRARY ==============================
 
+def select_chain_link(*args):
+
+    # This function lets you select the chain link object from the "chain_link_choices" option menu
+
+    print(chain_link_choices)
+
+    # Save current selection before updating option menu list
+    curr_select = cmds.optionMenu(chain_link_choices, query = True, select = True)
+    print("curr select: ", curr_select)
+    cmds.optionMenu(chain_link_choices, edit = True, deleteAllItems = True)
+
+    objects = cmds.ls(long=True, type='mesh')
+    for obj in objects:
+        cmds.menuItem(label = obj, parent = chain_link_choices)
+
+    # TODO: After list update, check whether current selection still exists
+    # - if it does, restore the selection in the menu and in Maya GUI (cmds.select())
+
+    cmds.optionMenu(chain_link_choices, edit = True, select = curr_select)
+
+    # - Otherwise, indicate that selection cannot be found before defaulting to another item
+
+    # print(item)
 
 # ================================ MAIN PROGRAM ================================
 
@@ -28,8 +51,11 @@ cmds.separator(height=10, style = "shelf")
 # Select object to serve as chain link
 
 # cmds.text("Select Chain Link Object: ", font = "boldLabelFont", align = "left", height = 30)
-chain_link_choices = cmds.optionMenu(label = "Chain Link Object: ")
+chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ", alwaysCallChangeCommand = True, changeCommand = select_chain_link)
+objects = cmds.ls(long=True, type='mesh')
 
+for obj in objects:
+    cmds.menuItem(label = obj, parent = chain_link_choices)
 
 # layout_chain_link = cmds.rowLayout("layout_chain_link", numberOfColumns = 2, adjustableColumn = 2)
 
