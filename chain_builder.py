@@ -7,29 +7,37 @@ __WINDOW__ = "chain_builder_UI"
 
 # ============================== FUNCTION LIBRARY ==============================
 
-def select_chain_link(*args):
+def update_menu():
 
-    # This function lets you select the chain link object from the "chain_link_choices" option menu
+    """
+    This function keeps the option menu "chain_link_choices" up-to-date
+    whilst preserving the current selection
+    """
 
-    print(chain_link_choices)
+    # Save current selection
+    curr_menu_item_index = cmds.optionMenu(chain_link_choices, query = True, select = True)
 
-    # Save current selection before updating option menu list
-    curr_select = cmds.optionMenu(chain_link_choices, query = True, select = True)
-    print("curr select: ", curr_select)
+    # Update option menu
     cmds.optionMenu(chain_link_choices, edit = True, deleteAllItems = True)
-
     objects = cmds.ls(long=True, type='mesh')
     for obj in objects:
         cmds.menuItem(label = obj, parent = chain_link_choices)
+ 
+    # Only restore current selection if an item was selected and its item index is
+    # not out-of-range (can occur if it was the last menu item and has been deleted)
+    if curr_menu_item_index > 0 and curr_menu_item_index < len(objects):
+        cmds.optionMenu(chain_link_choices, edit = True, select = curr_menu_item_index)
 
-    # TODO: After list update, check whether current selection still exists
-    # - if it does, restore the selection in the menu and in Maya GUI (cmds.select())
+def select_chain_link(*args):
 
-    cmds.optionMenu(chain_link_choices, edit = True, select = curr_select)
+    """
+    This function matches the current selection in option menu "chain_link_choices"
+    to the actual object in the view panel
+    """
 
-    # - Otherwise, indicate that selection cannot be found before defaulting to another item
-
-    # print(item)
+    curr_menu_item = cmds.optionMenu(chain_link_choices, query = True, value = True)
+    print("Current selection: ", curr_menu_item)
+    cmds.select(curr_menu_item)
 
 # ================================ MAIN PROGRAM ================================
 
@@ -51,13 +59,9 @@ cmds.separator(height=10, style = "shelf")
 # Select object to serve as chain link
 
 # cmds.text("Select Chain Link Object: ", font = "boldLabelFont", align = "left", height = 30)
-chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ", alwaysCallChangeCommand = True, changeCommand = select_chain_link)
-objects = cmds.ls(long=True, type='mesh')
-
-for obj in objects:
-    cmds.menuItem(label = obj, parent = chain_link_choices)
-
-# layout_chain_link = cmds.rowLayout("layout_chain_link", numberOfColumns = 2, adjustableColumn = 2)
+chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ",
+                                     beforeShowPopup = lambda *args: update_menu(),
+                                     alwaysCallChangeCommand = True, changeCommand = select_chain_link)
 
 cmds.setParent(layout_outermost)
 cmds.separator(height=10, style = "shelf")
