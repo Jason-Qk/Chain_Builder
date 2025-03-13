@@ -72,8 +72,23 @@ update_menu()
 cmds.separator(height=10, style = "shelf")
 
 # TODO: Define chain attributes
+# - Total number of Links
+# - Distance between links
 # - Direction of duplication - x/y/z axis
 # - Pattern variation e.g. rotate every 2nd link 90 degrees
+layout_num_chain_links = cmds.rowLayout("layout_num_chain_links", numberOfColumns = 2, adjustableColumn = 2)
+cmds.text("Number of Chain Links:", font = "boldLabelFont", align = "left")
+num_chain_links = cmds.textField("num_chain_links", placeholderText = "Positive Integer")
+
+cmds.setParent(layout_outermost)
+
+layout_link_spacing = cmds.rowLayout("layout_link_spacing", numberOfColumns = 2, adjustableColumn = 2)
+cmds.text("Distance Between Links:", font = "boldLabelFont", align = "left")
+num_chain_links = cmds.textField("num_chain_links", placeholderText = "Positive Float")
+
+cmds.setParent(layout_outermost)
+cmds.separator(height=10, style = "shelf")
+
 
 # TODO: Generate chain group then merge mesh
 
