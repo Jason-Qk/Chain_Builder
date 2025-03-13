@@ -20,13 +20,20 @@ def update_menu():
     # Update option menu
     cmds.optionMenu(chain_link_choices, edit = True, deleteAllItems = True)
     objects = cmds.ls(long=True, type='mesh')
-    for obj in objects:
-        cmds.menuItem(label = obj, parent = chain_link_choices)
- 
-    # Only restore current selection if an item was selected and its item index is
-    # not out-of-range (can occur if it was the last menu item and has been deleted)
-    if curr_menu_item_index > 0 and curr_menu_item_index < len(objects):
-        cmds.optionMenu(chain_link_choices, edit = True, select = curr_menu_item_index)
+
+    if len(objects) > 0:
+
+        for obj in objects:
+            cmds.menuItem(label = obj, parent = chain_link_choices)
+    
+        # Only restore current selection if an item was selected and its item index is
+        # not out-of-range (can occur if it was the last menu item and has been deleted)
+        if curr_menu_item_index > 0 and curr_menu_item_index < len(objects):
+            cmds.optionMenu(chain_link_choices, edit = True, select = curr_menu_item_index)
+
+    else:
+        
+        cmds.menuItem(label = "(none)", parent = chain_link_choices)
 
 def select_chain_link(*args):
 
@@ -36,8 +43,8 @@ def select_chain_link(*args):
     """
 
     curr_menu_item = cmds.optionMenu(chain_link_choices, query = True, value = True)
-    print("Current selection: ", curr_menu_item)
-    cmds.select(curr_menu_item)
+    if curr_menu_item != "(none)":
+        cmds.select(curr_menu_item)
 
 # ================================ MAIN PROGRAM ================================
 
@@ -62,6 +69,7 @@ cmds.separator(height=10, style = "shelf")
 chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ",
                                      beforeShowPopup = lambda *args: update_menu(),
                                      alwaysCallChangeCommand = True, changeCommand = select_chain_link)
+update_menu()
 
 cmds.setParent(layout_outermost)
 cmds.separator(height=10, style = "shelf")
