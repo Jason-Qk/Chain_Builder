@@ -48,13 +48,13 @@ def select_chain_link(*args):
 
 # ================================ MAIN PROGRAM ================================
 
-# Close window if currently open including clearing changes to window dimensions
+# Close window if currently open
 if cmds.window(__WINDOW__, exists = True):
     cmds.deleteUI(__WINDOW__)
-    cmds.windowPref(__WINDOW__, remove=True)
 
-# Create window
+# Create window and clear any prior changes to window dimensions
 cmds.window(__WINDOW__, title = "Chain Builder", widthHeight = [500, 300])
+cmds.windowPref(__WINDOW__, remove=True)
 
 # Construct controls
 layout_outermost = cmds.columnLayout("layout_outermost", adjustableColumn = True)
@@ -64,14 +64,11 @@ cmds.text("Window Title", font = "boldLabelFont", height = 50) # Title to be rep
 cmds.separator(height=10, style = "shelf")
 
 # Select object to serve as chain link
-
-# cmds.text("Select Chain Link Object: ", font = "boldLabelFont", align = "left", height = 30)
 chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ",
                                      beforeShowPopup = lambda *args: update_menu(),
                                      alwaysCallChangeCommand = True, changeCommand = select_chain_link)
 update_menu()
 
-cmds.setParent(layout_outermost)
 cmds.separator(height=10, style = "shelf")
 
 # TODO: Define chain attributes
