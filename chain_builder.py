@@ -87,6 +87,16 @@ cmds.text("Distance Between Links:", font = "boldLabelFont", align = "left")
 num_chain_links = cmds.textField("num_chain_links", placeholderText = "Positive Float")
 
 cmds.setParent(layout_outermost)
+
+layout_chain_orient = cmds.rowLayout("layout_chain_orient", numberOfColumns = 4)
+cmds.text("Chain Orientation:", font = "boldLabelFont", align = "left")
+chain_orient = cmds.radioButtonGrp("chain_orient", numberOfRadioButtons = 3, 
+                                   labelArray3=["X-axis", "Y-axis", "Z-axis"],
+                                   columnWidth3 = [60, 60, 60])
+
+
+
+
 cmds.separator(height=10, style = "shelf")
 
 
