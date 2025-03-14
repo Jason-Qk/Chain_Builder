@@ -96,11 +96,19 @@ chain_orient = cmds.radioButtonGrp("chain_orient", numberOfRadioButtons = 3,
 
 
 
-
+# TODO: Generate chain group then merge mesh
+cmds.setParent(layout_outermost)
 cmds.separator(height=10, style = "shelf")
 
+layout_create_chain = cmds.rowLayout("layout_create_chain", numberOfColumns = 2)
+cmds.button(label="Create Chain", width = 250)
+cmds.button(label="Reset", width = 250)
 
-# TODO: Generate chain group then merge mesh
+
+
+
+
+
 
 # TODO: Curve warp chain group onto a selected curve
 
