@@ -84,7 +84,7 @@ cmds.setParent(layout_outermost)
 
 layout_link_spacing = cmds.rowLayout("layout_link_spacing", numberOfColumns = 2, adjustableColumn = 2)
 cmds.text("Distance Between Links:", font = "boldLabelFont", align = "left")
-num_chain_links = cmds.textField("num_chain_links", placeholderText = "Positive Float")
+chain_link_spacing = cmds.textField("chain_link_spacing", placeholderText = "Positive Float")
 
 cmds.setParent(layout_outermost)
 
@@ -93,7 +93,6 @@ cmds.text("Chain Orientation:", font = "boldLabelFont", align = "left")
 chain_orient = cmds.radioButtonGrp("chain_orient", numberOfRadioButtons = 3, 
                                    labelArray3=["X-axis", "Y-axis", "Z-axis"],
                                    columnWidth3 = [60, 60, 60])
-
 
 
 # TODO: Generate chain group then merge mesh
