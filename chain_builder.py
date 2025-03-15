@@ -48,6 +48,18 @@ def select_chain_link(*args):
     if curr_menu_item != "(none)":
         cmds.select(curr_menu_item)
 
+def is_float(text):
+    
+    """
+    This function indicates whether "text" is a positive float like "1.00", ".50"    
+    """
+    
+    is_float = False
+    if (len(text) > 0) and (re.search(r"(^\d+\.?\d*$)|(^.\d+$)", text) != None):
+        is_float = True
+
+    return is_float
+
 def create_chain(*args):
 
     """
@@ -55,11 +67,23 @@ def create_chain(*args):
     "num_chain_links", "chain_link_spacing", "chain_orient"
     """
 
+    issues = [] # Record any issues with provided chain attributes
+
     chain_link = cmds.optionMenu(chain_link_choices, query = True, value = True)
+    if chain_link == "(none)":
+        issues.append("Chain Link Object - No object selected")
 
     num_links = cmds.textField(num_chain_links, query = True, text = True)
+    if (num_links.isdigit() == False) or (num_links.isdigit() == True and int(num_links) <= 0):
+        issues.append("Number of Chain Links - Expect a positive integer")
+    else:
+        num_links == int(num_links)
 
     link_spacing = cmds.textField(chain_link_spacing, query = True, text = True)
+    if (is_float(link_spacing) == False) or (is_float(link_spacing) == True and float(link_spacing) <= 0):
+        issues.append("Distance Between Links - Expect a positive number")
+    else:
+        link_spacing = float(link_spacing)
 
     chain_orient_select = cmds.radioButtonGrp(chain_orient, query = True, select = True) # Selected radio button
     chain_orient_options = cmds.radioButtonGrp(chain_orient, query = True, labelArray3 = True) # Radio button options
@@ -67,9 +91,12 @@ def create_chain(*args):
         orientation = chain_orient_options[chain_orient_select-1]
     else:
         orientation = None
+        issues.append("Chain Orientation - No orientation selected")
 
     print(f"Chain link obj: {chain_link}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
-
+    if len(issues) != 0:
+        error_message = "\n\n".join(issues)
+        print(error_message)
 
 # ================================ MAIN PROGRAM ================================
 
@@ -109,7 +136,7 @@ cmds.setParent(layout_outermost)
 
 layout_link_spacing = cmds.rowLayout("layout_link_spacing", numberOfColumns = 2, adjustableColumn = 2)
 cmds.text("Distance Between Links:", font = "boldLabelFont", align = "left")
-chain_link_spacing = cmds.textField("chain_link_spacing", placeholderText = "Positive Float")
+chain_link_spacing = cmds.textField("chain_link_spacing", placeholderText = "Positive number")
 
 cmds.setParent(layout_outermost)
 
