@@ -158,7 +158,7 @@ def create_chain(*args):
 
         # Retrieve chain attributes
         chain_link = cmds.optionMenu(chain_link_choices, query = True, value = True)
-        cmds.select(chain_link)
+        chain_link_transform = cmds.listRelatives(chain_link, parent=True, fullPath = True)[0]
 
         num_links = int(cmds.textField(num_chain_links, query = True, text = True))
 
@@ -169,8 +169,11 @@ def create_chain(*args):
         orientation = chain_orient_options[chain_orient_select-1]
 
         print("--------")
-        print(f"Chain link obj: {chain_link}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
+        print(f"Chain link obj: {chain_link} - transform node: {chain_link_transform}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
         print("--------")
+
+
+
 
 
 # ================================ MAIN PROGRAM ================================
