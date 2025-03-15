@@ -3,6 +3,8 @@
 import maya.cmds as cmds
 import MASH.api as mapi
 
+import re
+
 __WINDOW__ = "chain_builder_UI"
 
 # ============================== FUNCTION LIBRARY ==============================
@@ -45,6 +47,29 @@ def select_chain_link(*args):
     curr_menu_item = cmds.optionMenu(chain_link_choices, query = True, value = True)
     if curr_menu_item != "(none)":
         cmds.select(curr_menu_item)
+
+def create_chain(*args):
+
+    """
+    This function creates a chain based on the attributes defined by the controls
+    "num_chain_links", "chain_link_spacing", "chain_orient"
+    """
+
+    chain_link = cmds.optionMenu(chain_link_choices, query = True, value = True)
+
+    num_links = cmds.textField(num_chain_links, query = True, text = True)
+
+    link_spacing = cmds.textField(chain_link_spacing, query = True, text = True)
+
+    chain_orient_select = cmds.radioButtonGrp(chain_orient, query = True, select = True) # Selected radio button
+    chain_orient_options = cmds.radioButtonGrp(chain_orient, query = True, labelArray3 = True) # Radio button options
+    if chain_orient_select > 0:
+        orientation = chain_orient_options[chain_orient_select-1]
+    else:
+        orientation = None
+
+    print(f"Chain link obj: {chain_link}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
+
 
 # ================================ MAIN PROGRAM ================================
 
@@ -94,13 +119,12 @@ chain_orient = cmds.radioButtonGrp("chain_orient", numberOfRadioButtons = 3,
                                    labelArray3=["X-axis", "Y-axis", "Z-axis"],
                                    columnWidth3 = [60, 60, 60])
 
-
 # TODO: Generate chain group then merge mesh
 cmds.setParent(layout_outermost)
 cmds.separator(height=10, style = "shelf")
 
 layout_create_chain = cmds.rowLayout("layout_create_chain", numberOfColumns = 2)
-cmds.button(label="Create Chain", width = 250)
+cmds.button(label="Create Chain", width = 250, command = create_chain)
 cmds.button(label="Reset", width = 250)
 
 
