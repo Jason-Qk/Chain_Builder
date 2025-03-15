@@ -114,35 +114,32 @@ def valid_chain_attrs():
     issues = [] # Record any issues with provided chain attributes
 
     chain_link = cmds.optionMenu(chain_link_choices, query = True, value = True)
+
+    # Check if a chain link object has been selected
     if chain_link == "(none)":
         issues.append("Chain Link Object - No object selected")
 
+    # Check whether the selected chain link object still exists
     try:
         cmds.select(chain_link)
     except Exception as error:
         issues.append(f"Chain Link Object - Cannot select object due to {type(error).__name__}: {error}")
 
+    # Check whether the number of chain links is a positive integer
     num_links = cmds.textField(num_chain_links, query = True, text = True)
     if (num_links.isdigit() == False) or (num_links.isdigit() == True and int(num_links) <= 0):
         issues.append("Number of Chain Links - Expect a positive integer")
-    else:
-        num_links = int(num_links)
 
+    # Check whether the chain link spacing (i.e. distance between consecutive chain links) is a positive number
     link_spacing = cmds.textField(chain_link_spacing, query = True, text = True)
     if (is_float(link_spacing) == False) or (is_float(link_spacing) == True and float(link_spacing) <= 0):
         issues.append("Distance Between Links - Expect a positive number")
-    else:
-        link_spacing = float(link_spacing)
 
+    # Check whether a chain link orientation has been selected
     chain_orient_select = cmds.radioButtonGrp(chain_orient, query = True, select = True) # Selected radio button
-    chain_orient_options = cmds.radioButtonGrp(chain_orient, query = True, labelArray3 = True) # Radio button options
-    if chain_orient_select > 0:
-        orientation = chain_orient_options[chain_orient_select-1]
-    else:
-        orientation = None
+    if not chain_orient_select > 0:
         issues.append("Chain Orientation - No orientation selected")
 
-    print(f"Chain link obj: {chain_link}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
     if len(issues) != 0:
         issues = "\n\n".join(issues)
         popup_error(f"Cannot create chain due to the following issue(s):\n\n{issues}")
@@ -158,9 +155,22 @@ def create_chain(*args):
     """
 
     if valid_chain_attrs():
-        print("Valid attributes specified; ready to create chain")
-    else:
-        print("Cannot create chain")
+
+        # Retrieve chain attributes
+        chain_link = cmds.optionMenu(chain_link_choices, query = True, value = True)
+        cmds.select(chain_link)
+
+        num_links = int(cmds.textField(num_chain_links, query = True, text = True))
+
+        link_spacing = float(cmds.textField(chain_link_spacing, query = True, text = True))
+
+        chain_orient_select = cmds.radioButtonGrp(chain_orient, query = True, select = True) # Selected radio button
+        chain_orient_options = cmds.radioButtonGrp(chain_orient, query = True, labelArray3 = True) # Radio button options
+        orientation = chain_orient_options[chain_orient_select-1]
+
+        print("--------")
+        print(f"Chain link obj: {chain_link}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
+        print("--------")
 
 
 # ================================ MAIN PROGRAM ================================
