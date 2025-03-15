@@ -104,10 +104,10 @@ def is_float(text):
 
     return is_float
 
-def create_chain(*args):
+def valid_chain_attrs():
 
     """
-    This function creates a chain based on the attributes defined by the controls
+    This function checks the validity of thechain attributes defined by the controls
     "num_chain_links", "chain_link_spacing", "chain_orient"
     """
 
@@ -126,7 +126,7 @@ def create_chain(*args):
     if (num_links.isdigit() == False) or (num_links.isdigit() == True and int(num_links) <= 0):
         issues.append("Number of Chain Links - Expect a positive integer")
     else:
-        num_links == int(num_links)
+        num_links = int(num_links)
 
     link_spacing = cmds.textField(chain_link_spacing, query = True, text = True)
     if (is_float(link_spacing) == False) or (is_float(link_spacing) == True and float(link_spacing) <= 0):
@@ -144,8 +144,24 @@ def create_chain(*args):
 
     print(f"Chain link obj: {chain_link}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
     if len(issues) != 0:
-        error_message = "Cannot create chain due to the following issues:\n" + "\n\n".join(issues)
-        popup_error(error_message)
+        issues = "\n\n".join(issues)
+        popup_error(f"Cannot create chain due to the following issue(s):\n\n{issues}")
+        return False
+
+    return True
+
+def create_chain(*args):
+
+    """
+    This function creates a chain based on the attributes defined by the controls
+    "num_chain_links", "chain_link_spacing", "chain_orient"
+    """
+
+    if valid_chain_attrs():
+        print("Valid attributes specified; ready to create chain")
+    else:
+        print("Cannot create chain")
+
 
 # ================================ MAIN PROGRAM ================================
 
