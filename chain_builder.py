@@ -117,7 +117,10 @@ def create_chain(*args):
     if chain_link == "(none)":
         issues.append("Chain Link Object - No object selected")
 
-    # TODO: Add check for outdated option menu selection
+    try:
+        cmds.select(chain_link)
+    except Exception as error:
+        issues.append(f"Chain Link Object - Cannot select object due to {type(error).__name__}: {error}")
 
     num_links = cmds.textField(num_chain_links, query = True, text = True)
     if (num_links.isdigit() == False) or (num_links.isdigit() == True and int(num_links) <= 0):
@@ -141,7 +144,7 @@ def create_chain(*args):
 
     print(f"Chain link obj: {chain_link}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
     if len(issues) != 0:
-        error_message = "Cannot create chain until the following issues are resolved:\n" + "\n\n".join(issues)
+        error_message = "Cannot create chain due to the following issues:\n" + "\n\n".join(issues)
         popup_error(error_message)
 
 # ================================ MAIN PROGRAM ================================
