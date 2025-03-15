@@ -142,7 +142,7 @@ def create_chain(*args):
     print(f"Chain link obj: {chain_link}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
     if len(issues) != 0:
         error_message = "Cannot create chain until the following issues are resolved:\n" + "\n\n".join(issues)
-        print(error_message)
+        popup_error(error_message)
 
 # ================================ MAIN PROGRAM ================================
 
