@@ -9,6 +9,50 @@ __WINDOW__ = "chain_builder_UI"
 
 # ============================== FUNCTION LIBRARY ==============================
 
+def popup_info(message):
+
+    result = cmds.confirmDialog(
+        icon = "information",
+        title = "Information",
+        message = message,
+        button = "OK",
+        defaultButton = "OK"
+    )
+
+    print(f"Info pop-up response: {result}")
+
+def popup_warn(message):
+
+    result = cmds.confirmDialog(
+        icon = "warning",
+        title = "Warning",
+        message = message,
+        button = ["CONTINUE", "STOP"],
+        defaultButton = "CONTINUE",
+        cancelButton = "STOP"
+    )
+
+    print(f"Warning pop-up response: {result}")
+    if result == "STOP":
+        print("Terminating script")
+
+def popup_error(message):
+
+    result = cmds.confirmDialog(
+        icon = "critical",
+        title = "Error",
+        message = message,
+        button = ["OKAY", "HELP"],
+        defaultButton = "OKAY"
+    )
+
+    print(f"Error pop-up response: {result}")
+    if result == "HELP":
+        import webbrowser
+        webbrowser.open("https://www.linkedin.com/in/jason-js-quek")
+
+# ------------------------------------------------------------------------------
+
 def update_menu():
 
     """
@@ -73,6 +117,8 @@ def create_chain(*args):
     if chain_link == "(none)":
         issues.append("Chain Link Object - No object selected")
 
+    # TODO: Add check for outdated option menu selection
+
     num_links = cmds.textField(num_chain_links, query = True, text = True)
     if (num_links.isdigit() == False) or (num_links.isdigit() == True and int(num_links) <= 0):
         issues.append("Number of Chain Links - Expect a positive integer")
@@ -95,7 +141,7 @@ def create_chain(*args):
 
     print(f"Chain link obj: {chain_link}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
     if len(issues) != 0:
-        error_message = "\n\n".join(issues)
+        error_message = "Cannot create chain until the following issues are resolved:\n" + "\n\n".join(issues)
         print(error_message)
 
 # ================================ MAIN PROGRAM ================================
