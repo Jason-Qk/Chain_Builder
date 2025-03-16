@@ -203,8 +203,10 @@ def create_chain(*args):
         for link in all_chain_links:
             cmds.parent(link, chain_group)
 
-
-
+        # Merge chain links together to create a single chain object
+        chain = cmds.polyUnite(chain_group, centerPivot = True, mergeUVSets = 1)
+        cmds.rename(chain[0], "chain")
+        cmds.rename(chain[1], "polyUnite_chain")
 
 
 # ================================ MAIN PROGRAM ================================
