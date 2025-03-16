@@ -249,12 +249,10 @@ chain_orient = cmds.radioButtonGrp("chain_orient", numberOfRadioButtons = 3,
                                    labelArray3=["X-axis", "Y-axis", "Z-axis"],
                                    columnWidth3 = [60, 60, 60])
 
+# Click button to create the chain with the specified attributes
 cmds.setParent(layout_outermost)
 cmds.separator(height=10, style = "shelf")
-
-layout_create_chain = cmds.rowLayout("layout_create_chain", numberOfColumns = 2)
-cmds.button(label="Create Chain", width = 250, command = create_chain)
-cmds.button(label="Reset", width = 250)
+cmds.button(label="Create Chain", width = 500, command = create_chain)
 
 # Display window
 cmds.showWindow(__WINDOW__)
