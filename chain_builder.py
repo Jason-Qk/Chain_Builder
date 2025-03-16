@@ -172,6 +172,27 @@ def create_chain(*args):
         print(f"Chain link obj: {chain_link} - transform node: {chain_link_transform}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
         print("--------")
 
+        cmds.makeIdentity(chain_link_transform, apply = True)
+
+
+        for link_num in range(num_links):
+
+            if link_num == 0:
+                link_inst = cmds.instance(chain_link)
+                if orientation == "X-axis":
+                    cmds.move(link_spacing, moveX = True, relative = True)
+
+                elif orientation == "Y-axis":
+                    cmds.move(link_spacing, moveY = True, relative = True)
+
+                elif orientation == "Z-axis":
+                    cmds.move(link_spacing, moveZ = True, relative = True)
+
+            else:
+                link_inst = cmds.instance(smartTransform = True)
+
+            print(f"Chain link obj {link_num} created: {link_inst}")
+
 
 
 
