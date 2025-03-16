@@ -2,7 +2,6 @@
 
 import maya.cmds as cmds
 import MASH.api as mapi
-
 import re
 
 __WINDOW__ = "chain_builder_UI"
@@ -202,57 +201,64 @@ def create_chain(*args):
 
         popup_info(f"Creating group '{chain_group}' & chain '{chain_obj}'")
 
+def chain_builder_ui():
+
+    # Close window if currently open
+    if cmds.window(__WINDOW__, exists = True):
+        cmds.deleteUI(__WINDOW__)
+
+    # Create window and clear any prior changes to window dimensions
+    cmds.window(__WINDOW__, title = "Chain Builder", widthHeight = [500, 300])
+    cmds.windowPref(__WINDOW__, remove=True)
+
+    # Construct controls
+    layout_outermost = cmds.columnLayout("layout_outermost", adjustableColumn = True)
+
+    cmds.text("Window Title", font = "boldLabelFont", height = 50) # Title to be replaced by image title
+
+    cmds.separator(height=10, style = "shelf")
+
+    # Control to select the chain link object
+    global chain_link_choices
+    chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ",
+                                        beforeShowPopup = lambda *args: update_menu(),
+                                        alwaysCallChangeCommand = True, changeCommand = select_chain_link)
+    update_menu()
+
+    cmds.separator(height=10, style = "shelf")
+
+    # Specify the number of links the chain should have 
+    layout_num_chain_links = cmds.rowLayout("layout_num_chain_links", numberOfColumns = 2, adjustableColumn = 2)
+    cmds.text("Number of Chain Links:", font = "boldLabelFont", align = "left")
+    global num_chain_links
+    num_chain_links = cmds.textField("num_chain_links", placeholderText = "Positive Integer")
+
+    cmds.setParent(layout_outermost)
+
+    # Specify chain link spacing i.e. the distance between consecutive chain links
+    layout_link_spacing = cmds.rowLayout("layout_link_spacing", numberOfColumns = 2, adjustableColumn = 2)
+    cmds.text("Distance Between Links:", font = "boldLabelFont", align = "left")
+    global chain_link_spacing
+    chain_link_spacing = cmds.textField("chain_link_spacing", placeholderText = "Positive number")
+
+    cmds.setParent(layout_outermost)
+
+    # Specify the direction of chain link generation
+    layout_chain_orient = cmds.rowLayout("layout_chain_orient", numberOfColumns = 4)
+    cmds.text("Chain Orientation:", font = "boldLabelFont", align = "left")
+    global chain_orient
+    chain_orient = cmds.radioButtonGrp("chain_orient", numberOfRadioButtons = 3, 
+                                    labelArray3=["X-axis", "Y-axis", "Z-axis"],
+                                    columnWidth3 = [60, 60, 60])
+
+    # Click button to create the chain with the specified attributes
+    cmds.setParent(layout_outermost)
+    cmds.separator(height=10, style = "shelf")
+    cmds.button(label="Create Chain", width = 500, command = create_chain)
+
+    # Display window
+    cmds.showWindow(__WINDOW__)
 
 # ================================ MAIN PROGRAM ================================
 
-# Close window if currently open
-if cmds.window(__WINDOW__, exists = True):
-    cmds.deleteUI(__WINDOW__)
-
-# Create window and clear any prior changes to window dimensions
-cmds.window(__WINDOW__, title = "Chain Builder", widthHeight = [500, 300])
-cmds.windowPref(__WINDOW__, remove=True)
-
-# Construct controls
-layout_outermost = cmds.columnLayout("layout_outermost", adjustableColumn = True)
-
-cmds.text("Window Title", font = "boldLabelFont", height = 50) # Title to be replaced by image title
-
-cmds.separator(height=10, style = "shelf")
-
-# Control to select the chain link object
-chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ",
-                                     beforeShowPopup = lambda *args: update_menu(),
-                                     alwaysCallChangeCommand = True, changeCommand = select_chain_link)
-update_menu()
-
-cmds.separator(height=10, style = "shelf")
-
-# Specify the number of links the chain should have 
-layout_num_chain_links = cmds.rowLayout("layout_num_chain_links", numberOfColumns = 2, adjustableColumn = 2)
-cmds.text("Number of Chain Links:", font = "boldLabelFont", align = "left")
-num_chain_links = cmds.textField("num_chain_links", placeholderText = "Positive Integer")
-
-cmds.setParent(layout_outermost)
-
-# Specify chain link spacing i.e. the distance between consecutive chain links
-layout_link_spacing = cmds.rowLayout("layout_link_spacing", numberOfColumns = 2, adjustableColumn = 2)
-cmds.text("Distance Between Links:", font = "boldLabelFont", align = "left")
-chain_link_spacing = cmds.textField("chain_link_spacing", placeholderText = "Positive number")
-
-cmds.setParent(layout_outermost)
-
-# Specify the direction of chain link generation
-layout_chain_orient = cmds.rowLayout("layout_chain_orient", numberOfColumns = 4)
-cmds.text("Chain Orientation:", font = "boldLabelFont", align = "left")
-chain_orient = cmds.radioButtonGrp("chain_orient", numberOfRadioButtons = 3, 
-                                   labelArray3=["X-axis", "Y-axis", "Z-axis"],
-                                   columnWidth3 = [60, 60, 60])
-
-# Click button to create the chain with the specified attributes
-cmds.setParent(layout_outermost)
-cmds.separator(height=10, style = "shelf")
-cmds.button(label="Create Chain", width = 500, command = create_chain)
-
-# Display window
-cmds.showWindow(__WINDOW__)
+chain_builder_ui()
