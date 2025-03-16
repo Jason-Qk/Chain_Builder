@@ -168,14 +168,8 @@ def create_chain(*args):
         chain_orient_options = cmds.radioButtonGrp(chain_orient, query = True, labelArray3 = True) # Radio button options
         orientation = chain_orient_options[chain_orient_select-1]
 
-        print("--------")
-        print(f"Chain link obj: {chain_link} - transform node: {chain_link_transform}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
-        print("--------")
-
-        all_chain_links = [chain_link_transform]
-        print(f"Initialised chain link list: {all_chain_links}")
-
         # Create more chain links then add them to the chain group
+        all_chain_links = [chain_link_transform]
         cmds.makeIdentity(chain_link_transform, apply = True)
         for link_num in range(num_links-1):
 
@@ -196,8 +190,6 @@ def create_chain(*args):
             print(f"Chain link obj {link_num} created: {link_inst}")
             all_chain_links.append(link_inst)
 
-        print(f"Final chain link list: {all_chain_links}")
-
         # Group all chain links together
         chain_group = cmds.group(name = "chain_group", empty = True)
         for link in all_chain_links:
@@ -207,7 +199,6 @@ def create_chain(*args):
         chain = cmds.polyUnite(chain_group, centerPivot = True, mergeUVSets = 1)
         cmds.rename(chain[0], "chain")
         cmds.rename(chain[1], "polyUnite_chain")
-
 
 # ================================ MAIN PROGRAM ================================
 
