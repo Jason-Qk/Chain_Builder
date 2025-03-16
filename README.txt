@@ -4,6 +4,11 @@ This tool provides Autodesk Maya users a GUI to create a chain object.
 
 ## Script Setup
 
+Upon downloading the script, you have 2 options for running the script:
+1. Open the script directly within Maya's Script Editor, selecting all its contents, then running it through CTRL + Enter or similar
+2. Create a userSetup.py in your Maya's user script folder/directory 
+    - To ascertain the user script folder/directory see your Maya version's documentation on "Initializing the Maya Python environment" e.g. https://help.autodesk.com/view/MAYAUL/2023/ENU/?guid=GUID-640C1383-3FB8-410F-AE18-987A812B5914
+
 ## User workflow
 
 1. Run the chain_builder.py script
