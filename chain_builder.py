@@ -197,8 +197,11 @@ def create_chain(*args):
 
         # Merge chain links together to create a single chain object
         chain = cmds.polyUnite(chain_group, centerPivot = True, mergeUVSets = 1)
-        cmds.rename(chain[0], "chain")
-        cmds.rename(chain[1], "polyUnite_chain")
+        chain_obj = cmds.rename(chain[0], "chain")
+        polyUnite_chain = cmds.rename(chain[1], "polyUnite_chain")
+
+        popup_info(f"Create group {chain_group} & chain {chain_obj}")
+
 
 # ================================ MAIN PROGRAM ================================
 
