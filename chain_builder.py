@@ -172,13 +172,15 @@ def create_chain(*args):
         print(f"Chain link obj: {chain_link} - transform node: {chain_link_transform}, Num. links: {num_links}, link spacing: {link_spacing}, chain orientation = {orientation}")
         print("--------")
 
+        all_chain_links = [chain_link_transform]
+        print(f"Initialised chain link list: {all_chain_links}")
+
+        # Create more chain links then add them to the chain group
         cmds.makeIdentity(chain_link_transform, apply = True)
-
-
-        for link_num in range(num_links):
+        for link_num in range(num_links-1):
 
             if link_num == 0:
-                link_inst = cmds.instance(chain_link)
+                link_inst = cmds.instance(chain_link)[0]
                 if orientation == "X-axis":
                     cmds.move(link_spacing, moveX = True, relative = True)
 
@@ -189,9 +191,17 @@ def create_chain(*args):
                     cmds.move(link_spacing, moveZ = True, relative = True)
 
             else:
-                link_inst = cmds.instance(smartTransform = True)
+                link_inst = cmds.instance(smartTransform = True)[0]
 
             print(f"Chain link obj {link_num} created: {link_inst}")
+            all_chain_links.append(link_inst)
+
+        print(f"Final chain link list: {all_chain_links}")
+
+        # Group all chain links together
+        chain_group = cmds.group(name = "chain_group", empty = True)
+        for link in all_chain_links:
+            cmds.parent(link, chain_group)
 
 
 
