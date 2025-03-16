@@ -28,6 +28,7 @@ Upon downloading the script, you have 2 options for running the script:
 - Allow chain objects to be created from NURBs polygons
 - Group the chain's `chain<num>` object and `chain_group<num>` group together
 - Add controls for pattern variation e.g. rotating every 2nd link 90 degrees with respect to the X-axis
+- Let users preview their chain before creating it
 - Add controls to let users create a curve that dictates the chain's path, then curve warp the chain to the curve
 - Allow users to create chains featuring multiple distinct objects 
 - Make it easier for users to edit the chain object after it's created e.g. to remove or add new chain links
