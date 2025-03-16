@@ -214,7 +214,7 @@ def chain_builder_ui():
     # Construct controls
     layout_outermost = cmds.columnLayout("layout_outermost", adjustableColumn = True)
 
-    cmds.text("Window Title", font = "boldLabelFont", height = 50) # Title to be replaced by image title
+    cmds.text("Chain Builder", font = "boldLabelFont", height = 50)
 
     cmds.separator(height=10, style = "shelf")
 

@@ -24,3 +24,4 @@ Upon downloading the script, you have 2 options for running the script:
 - Add controls to let users create a curve that dictates the chain's path, then curve warp the chain to the curve
 - Allow users to create chains featuring multiple distinct objects 
 - Make it easier for users to edit the chain object after it's created e.g. to remove or add new chain links
+- Improving GUI appearance e.g. replacing text title with a image featuring the GUI title and sample tool outputs
