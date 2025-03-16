@@ -200,7 +200,7 @@ def create_chain(*args):
         chain_obj = cmds.rename(chain[0], "chain")
         polyUnite_chain = cmds.rename(chain[1], "polyUnite_chain")
 
-        popup_info(f"Create group {chain_group} & chain {chain_obj}")
+        popup_info(f"Creating group '{chain_group}' & chain '{chain_obj}'")
 
 
 # ================================ MAIN PROGRAM ================================
@@ -220,7 +220,7 @@ cmds.text("Window Title", font = "boldLabelFont", height = 50) # Title to be rep
 
 cmds.separator(height=10, style = "shelf")
 
-# Select object to serve as chain link
+# Control to select the chain link object
 chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ",
                                      beforeShowPopup = lambda *args: update_menu(),
                                      alwaysCallChangeCommand = True, changeCommand = select_chain_link)
@@ -228,45 +228,33 @@ update_menu()
 
 cmds.separator(height=10, style = "shelf")
 
-# TODO: Define chain attributes
-# - Total number of Links
-# - Distance between links
-# - Direction of duplication - x/y/z axis
-# - Pattern variation e.g. rotate every 2nd link 90 degrees
+# Specify the number of links the chain should have 
 layout_num_chain_links = cmds.rowLayout("layout_num_chain_links", numberOfColumns = 2, adjustableColumn = 2)
 cmds.text("Number of Chain Links:", font = "boldLabelFont", align = "left")
 num_chain_links = cmds.textField("num_chain_links", placeholderText = "Positive Integer")
 
 cmds.setParent(layout_outermost)
 
+# Specify chain link spacing i.e. the distance between consecutive chain links
 layout_link_spacing = cmds.rowLayout("layout_link_spacing", numberOfColumns = 2, adjustableColumn = 2)
 cmds.text("Distance Between Links:", font = "boldLabelFont", align = "left")
 chain_link_spacing = cmds.textField("chain_link_spacing", placeholderText = "Positive number")
 
 cmds.setParent(layout_outermost)
 
+# Specify the direction of chain link generation
 layout_chain_orient = cmds.rowLayout("layout_chain_orient", numberOfColumns = 4)
 cmds.text("Chain Orientation:", font = "boldLabelFont", align = "left")
 chain_orient = cmds.radioButtonGrp("chain_orient", numberOfRadioButtons = 3, 
                                    labelArray3=["X-axis", "Y-axis", "Z-axis"],
                                    columnWidth3 = [60, 60, 60])
 
-# TODO: Generate chain group then merge mesh
 cmds.setParent(layout_outermost)
 cmds.separator(height=10, style = "shelf")
 
 layout_create_chain = cmds.rowLayout("layout_create_chain", numberOfColumns = 2)
 cmds.button(label="Create Chain", width = 250, command = create_chain)
 cmds.button(label="Reset", width = 250)
-
-
-
-
-
-
-
-# TODO: Curve warp chain group onto a selected curve
-
 
 # Display window
 cmds.showWindow(__WINDOW__)
