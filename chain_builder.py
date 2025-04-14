@@ -203,13 +203,13 @@ def create_chain(*args):
 
 def chain_builder_ui():
 
-    # Close window if currently open
+    # Close window if currently open and clear any prior changes to window dimensions
     if cmds.window(__WINDOW__, exists = True):
         cmds.deleteUI(__WINDOW__)
+        cmds.windowPref(__WINDOW__, remove=True)
 
-    # Create window and clear any prior changes to window dimensions
+    # Create window
     cmds.window(__WINDOW__, title = "Chain Builder", widthHeight = [500, 300])
-    cmds.windowPref(__WINDOW__, remove=True)
 
     # Construct controls
     layout_outermost = cmds.columnLayout("layout_outermost", adjustableColumn = True)
