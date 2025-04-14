@@ -33,3 +33,4 @@ Upon downloading the script, you have 2 options for running the script:
 - Allow users to create chains featuring multiple distinct objects 
 - Make it easier for users to edit the chain object after it's created e.g. to remove or add new chain links
 - Improving GUI appearance e.g. replacing text title with a image featuring the GUI title and sample tool outputs
+- Window preferences (e.g. resizing a window) can only be reset if the window is not closed before `chain_builder.py` is rerun. I don't know why this is the case, but will fix once I figure out why.
