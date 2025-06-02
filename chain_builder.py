@@ -220,11 +220,20 @@ def chain_builder_ui():
 
     # Control to select the chain link object
     global chain_link_choices
-    chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ",
-                                        beforeShowPopup = lambda *args: update_menu(),
-                                        alwaysCallChangeCommand = True, changeCommand = select_chain_link)
-    update_menu()
+    # chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ",
+    #                                     beforeShowPopup = lambda *args: update_menu(),
+    #                                     alwaysCallChangeCommand = True, changeCommand = select_chain_link)
+    
+    layout_select_chain_obj = cmds.rowLayout("layout_select_chain_obj", numberOfColumns = 3, adjustableColumn = 2)
+    cmds.text("Chain Link Object: ", font = "boldLabelFont", align = "left")
 
+    curr_chain_link = cmds.textField("curr_chain_link", editable = False, placeholderText = "Select an object")
+    cmds.button(label="Update selection")
+
+
+    # update_menu()
+
+    cmds.setParent(layout_outermost)
     cmds.separator(height=10, style = "shelf")
 
     # Specify the number of links the chain should have 
