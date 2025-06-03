@@ -52,6 +52,23 @@ def popup_error(message):
 
 # ------------------------------------------------------------------------------
 
+def update_curr_chain_link(*args):
+
+    """
+    Update the "curr_chain_link" text field's content to display the name
+    of the currently selected object
+    """
+    selected_objs = cmds.ls(orderedSelection = True)
+
+    # If multiple objects are selected, default to the first object selected
+    if len(selected_objs) == 0:
+        popup_warn(f"Please select an object")
+
+    elif len(selected_objs) > 1:
+        popup_warn(f"Multiple objects selected, defaulting to first object {selected_objs[0]}")
+
+    cmds.textField(curr_chain_link, edit = True, text = selected_objs[0])
+
 def update_menu():
 
     """
@@ -227,9 +244,9 @@ def chain_builder_ui():
     layout_select_chain_obj = cmds.rowLayout("layout_select_chain_obj", numberOfColumns = 3, adjustableColumn = 2)
     cmds.text("Chain Link Object: ", font = "boldLabelFont", align = "left")
 
+    global curr_chain_link
     curr_chain_link = cmds.textField("curr_chain_link", editable = False, placeholderText = "Select an object")
-    cmds.button(label="Update selection")
-
+    cmds.button(label="Update selection", command = update_curr_chain_link)
 
     # update_menu()
 
