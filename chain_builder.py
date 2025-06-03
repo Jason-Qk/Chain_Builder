@@ -127,19 +127,17 @@ def valid_chain_attrs():
     "num_chain_links", "chain_link_spacing", "chain_orient"
     """
 
+    chain_link = cmds.textField(curr_chain_link, query = True, text = True)
     issues = [] # Record any issues with provided chain attributes
 
-    chain_link = cmds.optionMenu(chain_link_choices, query = True, value = True)
-
-    # Check if a chain link object has been selected
-    if chain_link == "(none)":
+    # Check if a chain link object has been selected and still exists
+    if len(chain_link) == 0:
         issues.append("Chain Link Object - No object selected")
-
-    # Check whether the selected chain link object still exists
-    try:
-        cmds.select(chain_link)
-    except Exception as error:
-        issues.append(f"Chain Link Object - Cannot select object due to {type(error).__name__}: {error}")
+    else:
+        try:
+            cmds.select(chain_link)
+        except Exception as error:
+            issues.append(f"Chain Link Object - Cannot select object due to {type(error).__name__}: {error}")
 
     # Check whether the number of chain links is a positive integer
     num_links = cmds.textField(num_chain_links, query = True, text = True)
