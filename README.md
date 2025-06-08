@@ -3,8 +3,8 @@
 This tool provides Autodesk Maya users a GUI to create a chain object in a non-procedural manner. The script automates the chain creation process depicted in [Model a Chain in Maya the simple way! - 3D Modeling Tutorial](https://www.youtube.com/watch?v=OGrMSgIYQWY) by Holly's Maya Tutorials.
 
 A chain consists of a group with naming convention `chain_group<num>` containing:
-    - `chain` - The chain object (transform & shape nodes)
-    - `chain_links` - A group containing the chain's link objects
+- `chain` - The chain object (transform & shape nodes)
+- `chain_links` - A group containing the chain's link objects
 
 ## Script Setup
 
