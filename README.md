@@ -29,6 +29,7 @@ Upon downloading the script, you have 2 options for running the script:
     - The chain object
     - A group containing the chain's link objects
     - A parent group containing the chain object and the chain link group
+    
     Otherwise, an Error pop-up will appear to inform the user of the problematic attributes.
 
 ## Future Work
