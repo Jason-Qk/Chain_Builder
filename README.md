@@ -33,7 +33,9 @@ Upon downloading the script, you have 2 options for running the script:
 
 ## Future Work
 
+- Only allow a chain to be created if the selected object is either a polygon object or a NURBs object
 - Give users the option to include or omit the selected object from the `chain_link` group
+    - If omitted, the `chain_link` group will just consist of instances of the selected object
 - Add controls to let users create a curve that dictates the chain's path, then curve warp the chain to the curve
 - Allow users to create chains featuring multiple distinct objects
 - Add controls for pattern variation e.g. rotating every 2nd link 90 degrees with respect to the X-axis
