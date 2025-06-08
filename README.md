@@ -3,14 +3,14 @@
 This tool provides Autodesk Maya users a GUI to create a chain object in a non-procedural manner. The script automates the chain creation process depicted in [Model a Chain in Maya the simple way! - 3D Modeling Tutorial](https://www.youtube.com/watch?v=OGrMSgIYQWY) by Holly's Maya Tutorials.
 
 A chain consists of a group with naming convention `chain_group<num>` containing:
-    - `chain` - The chain object (transform & shape nodes)
-    - `chain_links` - A group containing the chain's link objects
+- `chain` - The chain object (transform & shape nodes)
+- `chain_links` - A group containing the chain's link objects
 
 ## Script Setup
 
 Upon downloading the script, you have 2 options for running the script:
 1. Open the script directly within Maya's Script Editor, selecting all its contents, then running it through CTRL + Enter or similar
-2. Create a userSetup.py in your Maya's user script folder/directory to auto-run the script or set up a shelf icon that runs the script when clicked
+2. Create a `userSetup.py` in your Maya's user script folder/directory to auto-run the script or set up a shelf icon that runs the script when clicked
     - To ascertain the user script folder/directory see your Maya version's documentation on "Initializing the Maya Python environment" e.g. https://help.autodesk.com/view/MAYAUL/2023/ENU/?guid=GUID-640C1383-3FB8-410F-AE18-987A812B5914
 
 ## User Workflow
