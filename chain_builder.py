@@ -220,7 +220,7 @@ def create_chain(*args):
         polyUnite_chain = cmds.rename(chain[1], "polyUnite_chain") # Rename PolyUnite node
 
         chain_group = cmds.group(chain_links, chain_obj, name = "chain_group")
-        popup_info(f"Creating group '{chain_group}' containing linkg group '{chain_links}' & chain '{chain_obj}'")
+        popup_info(f"Creating group '{chain_group}' containing link group '{chain_links}' & chain object '{chain_obj}'")
 
 def chain_builder_ui():
 
@@ -241,9 +241,6 @@ def chain_builder_ui():
 
     # Control to select the chain link object
     global chain_link_choices
-    # chain_link_choices = cmds.optionMenu("chain_link_choices", label = "Chain Link Object: ",
-    #                                     beforeShowPopup = lambda *args: update_menu(),
-    #                                     alwaysCallChangeCommand = True, changeCommand = select_chain_link)
     
     layout_select_chain_obj = cmds.rowLayout("layout_select_chain_obj", numberOfColumns = 3, adjustableColumn = 2)
     cmds.text("Chain Link Object: ", font = "boldLabelFont", align = "left")
@@ -252,8 +249,6 @@ def chain_builder_ui():
     curr_chain_link = cmds.textField("curr_chain_link", editable = False, placeholderText = "Select an object")
     cmds.button(label="Update selection", command = update_curr_chain_link)
 
-    # update_menu()
-
     cmds.setParent(layout_outermost)
     cmds.separator(height=10, style = "shelf")
 
@@ -261,7 +256,7 @@ def chain_builder_ui():
     layout_num_chain_links = cmds.rowLayout("layout_num_chain_links", numberOfColumns = 2, adjustableColumn = 2)
     cmds.text("Number of Chain Links:", font = "boldLabelFont", align = "left")
     global num_chain_links
-    num_chain_links = cmds.textField("num_chain_links", placeholderText = "Positive Integer")
+    num_chain_links = cmds.textField("num_chain_links", placeholderText = "Positive integer (e.g. 1, 10)")
 
     cmds.setParent(layout_outermost)
 
@@ -269,7 +264,7 @@ def chain_builder_ui():
     layout_link_spacing = cmds.rowLayout("layout_link_spacing", numberOfColumns = 2, adjustableColumn = 2)
     cmds.text("Distance Between Links:", font = "boldLabelFont", align = "left")
     global chain_link_spacing
-    chain_link_spacing = cmds.textField("chain_link_spacing", placeholderText = "Positive number")
+    chain_link_spacing = cmds.textField("chain_link_spacing", placeholderText = "Positive number (e.g. 0.5, 1)")
 
     cmds.setParent(layout_outermost)
 
