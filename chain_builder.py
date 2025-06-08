@@ -26,14 +26,11 @@ def popup_warn(message):
         icon = "warning",
         title = "Warning",
         message = message,
-        button = ["CONTINUE", "STOP"],
-        defaultButton = "CONTINUE",
-        cancelButton = "STOP"
+        button = "OK",
+        defaultButton = "OK"
     )
 
     print(f"Warning pop-up response: {result}")
-    if result == "STOP":
-        print("Terminating script")
 
 def popup_error(message):
 
@@ -64,10 +61,12 @@ def update_curr_chain_link(*args):
     if len(selected_objs) == 0:
         popup_warn(f"Please select an object")
 
-    elif len(selected_objs) > 1:
-        popup_warn(f"Multiple objects selected, defaulting to first object {selected_objs[0]}")
+    else:
 
-    cmds.textField(curr_chain_link, edit = True, text = selected_objs[0])
+        if len(selected_objs) > 1:
+            popup_warn(f"Multiple objects selected, defaulting to first object {selected_objs[0]}")
+
+        cmds.textField(curr_chain_link, edit = True, text = selected_objs[0])
 
 def update_menu():
 
