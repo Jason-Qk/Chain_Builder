@@ -123,7 +123,7 @@ def is_float(text):
 def valid_chain_attrs():
 
     """
-    This function checks the validity of thechain attributes defined by the controls
+    This function checks the validity of the chain attributes defined by the controls
     "num_chain_links", "chain_link_spacing", "chain_orient"
     """
 
@@ -171,8 +171,13 @@ def create_chain(*args):
     if valid_chain_attrs():
 
         # Retrieve chain attributes
-        chain_link = cmds.optionMenu(chain_link_choices, query = True, value = True)
-        chain_link_transform = cmds.listRelatives(chain_link, parent=True, fullPath = True)[0]
+
+        chain_link = cmds.textField(curr_chain_link, query = True, text = True)
+
+        if cmds.ls(chain_link, long = True, shapes = True):
+            chain_link_transform = cmds.listRelatives(chain_link, parent=True, fullPath = True)[0]
+        elif cmds.ls(chain_link, long = True, transforms = True):
+            chain_link_transform = chain_link
 
         num_links = int(cmds.textField(num_chain_links, query = True, text = True))
 
