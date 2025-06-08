@@ -210,16 +210,17 @@ def create_chain(*args):
             all_chain_links.append(link_inst)
 
         # Group all chain links together
-        chain_group = cmds.group(name = "chain_group", empty = True)
+        chain_links = cmds.group(name = "chain_links", empty = True)
         for link in all_chain_links:
-            cmds.parent(link, chain_group)
+            cmds.parent(link, chain_links)
 
         # Merge chain links together to create a single chain object
-        chain = cmds.polyUnite(chain_group, centerPivot = True, mergeUVSets = 1)
-        chain_obj = cmds.rename(chain[0], "chain")
-        polyUnite_chain = cmds.rename(chain[1], "polyUnite_chain")
+        chain = cmds.polyUnite(chain_links, centerPivot = True, mergeUVSets = 1)
+        chain_obj = cmds.rename(chain[0], "chain") # Rename object node
+        polyUnite_chain = cmds.rename(chain[1], "polyUnite_chain") # Rename PolyUnite node
 
-        popup_info(f"Creating group '{chain_group}' & chain '{chain_obj}'")
+        chain_group = cmds.group(chain_links, chain_obj, name = "chain_group")
+        popup_info(f"Creating group '{chain_group}' containing linkg group '{chain_links}' & chain '{chain_obj}'")
 
 def chain_builder_ui():
 
